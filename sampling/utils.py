@@ -47,10 +47,26 @@ def norm_logits(logits : torch.Tensor, temperature : float, top_k : float, top_p
     return probs
 
 
+# def sample(probs : torch.Tensor, num_samples: int = 1):
+#     idx_next = torch.multinomial(probs, num_samples=num_samples)
+#     if (idx_next.item() == 0):
+#         # breakpoint()
+#         # idx_next = torch.multinomial(probs, num_samples=num_samples)
+#         raise RuntimeError
+#     return idx_next
+
 def sample(probs : torch.Tensor, num_samples: int = 1):
+    if torch.isnan(probs).any():
+        probs = torch.nan_to_num(probs)
+        probs = torch.softmax(probs, dim=-1)
+
     idx_next = torch.multinomial(probs, num_samples=num_samples)
-    if (idx_next.item() == 0):
-        raise RuntimeError
+
+        
+    # if (idx_next.item() == 0):
+    #     # breakpoint()
+    #     # idx_next = torch.multinomial(probs, num_samples=num_samples)
+    #     raise RuntimeError
     return idx_next
 
 

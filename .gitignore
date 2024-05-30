@@ -1,1 +1,6 @@
 *__pycache__*
+
+llama_model/
+datasets/
+experiments/
+imgs/
